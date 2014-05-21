@@ -77,7 +77,7 @@ function createReactComponent(componentClass) {
             // so we retrive the descriptors to apply them to the obtained prototype after `createClass`
             if (descriptor && (descriptor.get || descriptor.set)) {
                 accessorsProperties[key] = descriptor;
-            } else {
+            } else if(keyIsAllowed(key)) {
                 spec[key] = proto[key];
             }
             return spec;
@@ -86,6 +86,10 @@ function createReactComponent(componentClass) {
         return spec;
     }, {});
     
+    function keyIsAllowed(key) {
+        return key !== "constructor";
+    }
+
     //copy all static in the 'statics' property of the chain
     spec.statics = Object.keys(componentClass).reduce(function (statics, key) {
         //mixin is a special case we copy it in the spec
