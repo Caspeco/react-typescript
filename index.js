@@ -75,7 +75,7 @@ function createReactComponent(componentClass) {
             var descriptor = Object.getOwnPropertyDescriptor(spec, key);
             //getter and setter are quite common in typescript we cannot let them go in the spec
             // so we retrive the descriptors to apply them to the obtained prototype after `createClass`
-            if (descriptor.get || descriptor.set) {
+            if (descriptor && (descriptor.get || descriptor.set)) {
                 accessorsProperties[key] = descriptor;
             } else {
                 spec[key] = proto[key];
